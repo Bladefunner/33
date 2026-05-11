@@ -1,130 +1,111 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2022.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'PingFang SC'}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-    span.s1 {font: 12.0px 'PingFang SC'}
-    span.s2 {font: 12.0px Helvetica}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLADEFUNNER - 沉浸式语言学习</title>
+<style>
+:root {
+    --bg-color: #f5f5f7;
+    --text-main: #1d1d1f;
+    --text-muted: #86868b;
+    --apple-blue: #0066cc;
+    --nav-bg: rgba(255, 255, 255, 0.8);
+    --card-bg: #ffffff;
+    --border-radius: 20px;
+    --shadow: 0 8px 30px rgba(0,0,0,0.04);
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+body { font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background:var(--bg-color); color:var(--text-main); line-height:1.6; }
+/* 导航栏 */
+nav { position: fixed; top:0; width:100%; height:48px; background:var(--nav-bg); backdrop-filter: saturate(180%) blur(20px); display:flex; justify-content:center; align-items:center; border-bottom:1px solid rgba(0,0,0,0.08); z-index:1000;}
+.nav-container { width:100%; max-width:1000px; display:flex; justify-content:space-between; padding:0 22px; }
+.logo { font-weight:600; font-size:17px; cursor:pointer; letter-spacing:-0.02em; }
+.nav-links { display:flex; gap:30px; }
+.nav-links a { text-decoration:none; color:var(--text-main); font-size:12px; opacity:0.8; cursor:pointer; }
+.nav-links a:hover { opacity:1; }
+/* 视图切换 */
+.view-section { display:none; padding-top:80px; min-height:100vh; max-width:1000px; margin:0 auto; animation: fadeIn 0.5s ease; }
+.view-section.active { display:block; }
+@keyframes fadeIn { from { opacity:0;} to{opacity:1;} }
+/* 标题 */
+.section-title { font-size:40px; font-weight:700; text-align:center; margin:40px 0; letter-spacing:-0.02em; }
+/* 卡片网格 */
+.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; padding:0 20px; }
+.card { background: var(--card-bg); border-radius: var(--border-radius); padding:30px; box-shadow: var(--shadow); cursor:pointer; transition:0.3s; }
+.card:hover { transform:translateY(-5px); box-shadow:0 12px 40px rgba(0,0,0,0.08);}
+.card h3{ font-size:21px; margin-bottom:8px; }
+.card p{ color:var(--text-muted); font-size:14px; }
+/* 学习界面 */
+.learning-layout{ display:flex; gap:24px; padding:0 20px; flex-wrap:wrap; }
+.main-reader{ flex:2; min-width:350px; background:#fff; border-radius:var(--border-radius); padding:40px; box-shadow:var(--shadow);}
+.sidebar{ flex:1; min-width:300px; display:flex; flex-direction:column; gap:24px; }
+/* 剧本阅读区 */
+.script-content{ font-size:18px; color:#333;}
+.script-line{ margin-bottom:20px;}
+.role-name{ font-weight:700; color:var(--apple-blue); margin-right:8px; }
+/* 播放器与生词本 */
+.widget{ background:#fff; border-radius:var(--border-radius); padding:24px; box-shadow:var(--shadow);}
+.widget h4{ margin-bottom:16px; font-size:16px; font-weight:600; }
+audio{ width:100%; margin:10px 0; }
+.btn{ background:var(--apple-blue); color:#fff; border:none; padding:8px 16px; border-radius:20px; font-size:13px; cursor:pointer; margin-right:8px; margin-bottom:8px;}
+.btn-secondary{ background:#f5f5f7; color:var(--apple-blue); }
+/* 划词弹窗 */
+#dict-popup{ position:absolute; display:none; background:#1d1d1f; color:#fff; padding:12px 16px; border-radius:12px; font-size:14px; z-index:2000; box-shadow:0 10px 30px rgba(0,0,0,0.2); width:220px;}
+#dict-popup button{ width:100%; margin-top:10px; background:var(--apple-blue); border:none; color:white; border-radius:6px; padding:5px; cursor:pointer; }
+/* 生词列表 */
+#vocab-list{ list-style:none; margin-top:10px; }
+.vocab-item{ display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:14px;}
+.vocab-detail{ color:#86868b; font-size:12px; margin-left:6px;}
+</style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="zh-CN"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1">&lt;title&gt;BLADEFUNNER - <span class="s1">沉浸式语言学习</span>&lt;/title&gt;</p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1">:root {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--bg-color: #f5f5f7;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--text-main: #1d1d1f;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--text-muted: #86868b;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--apple-blue: #0066cc;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--nav-bg: rgba(255, 255, 255, 0.8);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--card-bg: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--border-radius: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--shadow: 0 8px 30px rgba(0,0,0,0.04);</p>
-<p class="p1">}</p>
-<p class="p1">* { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }</p>
-<p class="p1">body { font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background:var(--bg-color); color:var(--text-main); line-height:1.6; }</p>
-<p class="p1">/* <span class="s1">导航栏</span> */</p>
-<p class="p1">nav { position: fixed; top:0; width:100%; height:48px; background:var(--nav-bg); backdrop-filter: saturate(180%) blur(20px); display:flex; justify-content:center; align-items:center; border-bottom:1px solid rgba(0,0,0,0.08); z-index:1000;}</p>
-<p class="p1">.nav-container { width:100%; max-width:1000px; display:flex; justify-content:space-between; padding:0 22px; }</p>
-<p class="p1">.logo { font-weight:600; font-size:17px; cursor:pointer; letter-spacing:-0.02em; }</p>
-<p class="p1">.nav-links { display:flex; gap:30px; }</p>
-<p class="p1">.nav-links a { text-decoration:none; color:var(--text-main); font-size:12px; opacity:0.8; cursor:pointer; }</p>
-<p class="p1">.nav-links a:hover { opacity:1; }</p>
-<p class="p1">/* <span class="s1">视图切换</span> */</p>
-<p class="p1">.view-section { display:none; padding-top:80px; min-height:100vh; max-width:1000px; margin:0 auto; animation: fadeIn 0.5s ease; }</p>
-<p class="p1">.view-section.active { display:block; }</p>
-<p class="p1">@keyframes fadeIn { from { opacity:0;} to{opacity:1;} }</p>
-<p class="p1">/* <span class="s1">标题</span> */</p>
-<p class="p1">.section-title { font-size:40px; font-weight:700; text-align:center; margin:40px 0; letter-spacing:-0.02em; }</p>
-<p class="p1">/* <span class="s1">卡片网格</span> */</p>
-<p class="p1">.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; padding:0 20px; }</p>
-<p class="p1">.card { background: var(--card-bg); border-radius: var(--border-radius); padding:30px; box-shadow: var(--shadow); cursor:pointer; transition:0.3s; }</p>
-<p class="p1">.card:hover { transform:translateY(-5px); box-shadow:0 12px 40px rgba(0,0,0,0.08);}</p>
-<p class="p1">.card h3{ font-size:21px; margin-bottom:8px; }</p>
-<p class="p1">.card p{ color:var(--text-muted); font-size:14px; }</p>
-<p class="p1">/* <span class="s1">学习界面</span> */</p>
-<p class="p1">.learning-layout{ display:flex; gap:24px; padding:0 20px; flex-wrap:wrap; }</p>
-<p class="p1">.main-reader{ flex:2; min-width:350px; background:#fff; border-radius:var(--border-radius); padding:40px; box-shadow:var(--shadow);}</p>
-<p class="p1">.sidebar{ flex:1; min-width:300px; display:flex; flex-direction:column; gap:24px; }</p>
-<p class="p1">/* <span class="s1">剧本阅读区</span> */</p>
-<p class="p1">.script-content{ font-size:18px; color:#333;}</p>
-<p class="p1">.script-line{ margin-bottom:20px;}</p>
-<p class="p1">.role-name{ font-weight:700; color:var(--apple-blue); margin-right:8px; }</p>
-<p class="p2"><span class="s2">/* </span>播放器与生词本<span class="s2"> */</span></p>
-<p class="p1">.widget{ background:#fff; border-radius:var(--border-radius); padding:24px; box-shadow:var(--shadow);}</p>
-<p class="p1">.widget h4{ margin-bottom:16px; font-size:16px; font-weight:600; }</p>
-<p class="p1">audio{ width:100%; margin:10px 0; }</p>
-<p class="p1">.btn{ background:var(--apple-blue); color:#fff; border:none; padding:8px 16px; border-radius:20px; font-size:13px; cursor:pointer; margin-right:8px; margin-bottom:8px;}</p>
-<p class="p1">.btn-secondary{ background:#f5f5f7; color:var(--apple-blue); }</p>
-<p class="p1">/* <span class="s1">划词弹窗</span> */</p>
-<p class="p1">#dict-popup{ position:absolute; display:none; background:#1d1d1f; color:#fff; padding:12px 16px; border-radius:12px; font-size:14px; z-index:2000; box-shadow:0 10px 30px rgba(0,0,0,0.2); width:220px;}</p>
-<p class="p1">#dict-popup button{ width:100%; margin-top:10px; background:var(--apple-blue); border:none; color:white; border-radius:6px; padding:5px; cursor:pointer; }</p>
-<p class="p1">/* <span class="s1">生词列表</span> */</p>
-<p class="p1">#vocab-list{ list-style:none; margin-top:10px; }</p>
-<p class="p1">.vocab-item{ display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:14px;}</p>
-<p class="p1">.vocab-detail{ color:#86868b; font-size:12px; margin-left:6px;}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1">&lt;nav&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="nav-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="logo" onclick="showView('home')"&gt;BLADEFUNNER&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="nav-links"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a onclick="showView('home')"&gt;WHATFUN&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a onclick="showView('explore')"&gt;EXPLORE&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/nav&gt;</p>
-<p class="p3"><br></p>
-<p class="p1">&lt;section id="home-view" class="view-section active"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div style="text-align:center; margin-top:15vh;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 style="font-size:64px; letter-spacing:-0.03em;"&gt;Learn by heart.&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="font-size:24px; color:var(--text-muted);"&gt;<span class="s1">为你打造的沉浸式剧本学习空间。</span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p3"><br></p>
-<p class="p1">&lt;section id="explore-view" class="view-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="section-title"&gt;<span class="s1">探索类目</span>&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card" onclick="showView('library')"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;ENGLISH&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;<span class="s1">从经典美剧中学习地道口语</span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card" style="opacity:0.5; cursor:default;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;OTHERS&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;<span class="s1">更多语言类别敬请期待</span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p3"><br></p>
-<p class="p1">&lt;section id="library-view" class="view-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="section-title"&gt;<span class="s1">剧本库：老友记</span>&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="grid" id="episode-grid"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p3"><br></p>
-<p class="p1">&lt;section id="learning-view" class="view-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="learning-layout"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="main-reader"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2 id="current-title" style="margin-bottom:24px;"&gt;<span class="s1">加载中</span>...&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="script-display" class="script-content"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="sidebar"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="widget"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h4&gt;<span class="s1">听力与跟读</span>&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;audio id="audio-player" controls src=""&gt;&lt;/audio&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div style="margin-top:15px;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="btn"&gt;<span class="s1">单句循环</span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="btn</p>
-</body>
-</html>
+<nav>
+    <div class="nav-container">
+        <div class="logo" onclick="showView('home')">BLADEFUNNER</div>
+        <div class="nav-links">
+            <a onclick="showView('home')">WHATFUN</a>
+            <a onclick="showView('explore')">EXPLORE</a>
+        </div>
+    </div>
+</nav>
+
+<section id="home-view" class="view-section active">
+    <div style="text-align:center; margin-top:15vh;">
+        <h1 style="font-size:64px; letter-spacing:-0.03em;">Learn by heart.</h1>
+        <p style="font-size:24px; color:var(--text-muted);">为你打造的沉浸式剧本学习空间。</p>
+    </div>
+</section>
+
+<section id="explore-view" class="view-section">
+    <h2 class="section-title">探索类目</h2>
+    <div class="grid">
+        <div class="card" onclick="showView('library')">
+            <h3>ENGLISH</h3>
+            <p>从经典美剧中学习地道口语</p>
+        </div>
+        <div class="card" style="opacity:0.5; cursor:default;">
+            <h3>OTHERS</h3>
+            <p>更多语言类别敬请期待</p>
+        </div>
+    </div>
+</section>
+
+<section id="library-view" class="view-section">
+    <h2 class="section-title">剧本库：老友记</h2>
+    <div class="grid" id="episode-grid"></div>
+</section>
+
+<section id="learning-view" class="view-section">
+    <div class="learning-layout">
+        <div class="main-reader">
+            <h2 id="current-title" style="margin-bottom:24px;">加载中...</h2>
+            <div id="script-display" class="script-content"></div>
+        </div>
+        <div class="sidebar">
+            <div class="widget">
+                <h4>听力与跟读</h4>
+                <audio id="audio-player" controls src=""></audio>
+                <div style="margin-top:15px;">
+                    <button class="btn">单句循环</button>
+                    <button class="btn
